@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+    SCOTUS Data Project
+    Line Chart Visualization
+    Andrew Phillips & Jake Rourke
+-->
+
+<html lang="en">
+
+<head>
+  <title>Line Graph</title>
+  <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="linechart.css">
+  <link rel="stylesheet" type="text/css" href="../../css/navbar.css">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+
+<body>
+
+  <div class="navbar">
+    <ul>
+      <li><a href="../../">Home</a></li>
+      <li><a href="../../data/in-depth.html">Data Details</a></li>
+      <li><a class="active" href="#">Line Graph</a></li>
+      <li><a href="../heatmap/heatmap.html">Heatmap</a></li>
+      <li><a href="../scatterplot/scatterplot.html">Scatterplot</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class=project-description>
+      <div class="heading"> <h3>Multi-Series Line Chart & Brush/Zoom Timeline</h3></div>
+      <div class="content">
+        <p> Select a justice on the righthand side. Adjust the time scale on the bottom. </p>
+        <p> When swing votes are toggled, the size of the circle represents the
+        number of 5-4 decisions in that year where the median justice was in the majority; in other words, the importance of their swing vote</p>
+      </div>
+    </div>
+    <div class="visualization">
+      <div class="graph">
+        <svg width="850" height="500"></svg>
+      </div>
+      <div class="controls">
+        <div class="controls-header">
+          <p>Select Justices</p>
+        </div>
+        <div id="justice-menu">
+          <!-- js will add an svg here -->
+        </div>
+        <div class="buttons">
+          <button class="button" onclick="clearAllJustices()">Clear all justices</button>
+          <button class="button" onclick="showAllJustices()">Show all justices</button>
+          <button class="button" onclick="toggleSwingVotes()">Toggle swing votes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tooltip">
+    <div class="tooltip-info">
+      <span id="tooltip-text">X</span>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./linechart.js"></script>
+</body>
+</html>

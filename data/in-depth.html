@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+    SCOTUS Data Project
+    In-depth data section
+    Andrew Phillips & Jake Rourke
+-->
+
+<html>
+<head>
+  <title>Data Details</title>
+  <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.js">   </script>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <link rel="stylesheet" type="text/css" href="../css/navbar.css">
+</head>
+
+<body>
+  <div class="navbar">
+    <ul>
+      <li><a href="./">Home</a></li>
+      <li><a class="active" href="#">Data Details</a></li>
+      <li><a href="../vis/linegraph/linechart.html">Line Graph</a></li>
+      <li><a href="../vis/heatmap/heatmap.html">Heatmap</a></li>
+      <li><a href="../vis/scatterplot/scatterplot.html">Scatterplot</a></li>
+    </ul>
+  </div>
+
+
+<div class=project-description>
+      <div class="heading"> <h2>Detailed Data Information</h2></div>
+      <div class="content">
+        <p> We are using the Justice Centered and Case Centered versions of the
+          SCDB, organized by Issue/Legal Provision. The former has around 100,000
+          lines of data (1 for each justice's vote in each case) and the latter
+          around 10,000 lines of data (1 for each case). The justice-centered
+          dataset includes all of the information in the case-centered dataset,
+          in addition to information about each justice's votes. </p>
+        <p>There are 54 or 63 attributes in total for the case-centered and
+          justice-centered databases, respectively. In particular, we are
+          interested in variables which describe the timeline of the court,
+          decision and voting information, and the issue area. These are
+          described below. Information about every attribute, including the
+          specifics of how they are determined, can be found in the <a
+            href="http://scdb.wustl.edu/_brickFiles/2017_01/SCDB_2017_01_codebook.pdf">SCDB Codebook</a>.</p>
+        <p>Both databases:</p>
+        <ul>
+          <li>term: Term (year) of the court</li>
+          <li>chief: Last name of the Chief Custice of the court</li>
+          <li>issueArea: Number representing which of 14 issue areas the case lies within</li>
+          <li>decisionDirection: 1 if the decision in the case was conservative, 2 if liberal, or 3 if unspecifiable</li>
+          <li>majVotes: the number of votes in the majority</li>
+        </ul>
+        <p>Justice-centered only:</p>
+        <ul>
+          <li>justiceName: The (abbreviated) name of each justice</li>
+          <li>direction: 1 if the direction of the justice's vote was conservative, 2 if liberal, or 3 if unspecifiable</li>
+          <li>majority: 2 if the justice voted with the majority, 3 if with the dissent</li>
+          <li>median: 1 if the justice is the median justice, 0 if not</li>
+        </ul>
+
+        <p>For example, the relevant attributes in a line of data from the justice-centered database might look like this:</p>
+        <div style="overflow-x:auto;">
+          <table>
+            <tr>
+              <th>justiceName</th>
+              <th>term</th>
+              <th>chief</th>
+              <th>issueArea</th>
+              <th>decisionDirection</th>
+              <th>majVotes</th>
+              <th>direction</th>
+              <th>majority</th>
+              <th>median</th>
+            </tr>
+            <tr>
+              <th>RBGinsburg</th>
+              <th>2015</th>
+              <th>Roberts</th>
+              <th>3</th>
+              <th>2</th>
+              <th>5</th>
+              <th>2</th>
+              <th>2</th>
+              <th>0</th>
+            </tr>
+          </table>
+        </div>
+        <p>Or, in plain english: In 2015, under Chief Justice Roberts, the court released a liberal decision in a case about First Amendment issues. Justice Ginsburg voted with the majority (liberal). She was not the median justice at the time.</p>
+      </div>
+      <br><br>
+      <div class="heading"> <h3>Additions to the SCDB</h3></div>
+      <div class="content">
+        <p>Some of those are not present in the original dataset, but were
+        added by Professor Sorenson. The newly-introduced variables are the
+        following:</p>
+        <p>In the both databases:</p>
+          <ul>
+          <li>term: explained above</li>
+          <li>medianJJ:   The name of the median (or swing-vote) justice</li>
+          <li>lib_median: 1 when the court is liberal and the justice is liberal (when
+                            the justice is the swing vote)</li>
+          <li>lib_court:  1 if the court is liberal, 0 if not</li>
+          <li>NOTE: medianJJ and lib_court are all the same for a given term, while the
+          other variables differ for each case, for each justice.</li>
+        </ul>
+        <p>In only the justice-centered database:</p>
+        <ul>
+          <li>liberal:    1 if the justice is liberal, 0 if not)</li>
+          <li>median: explained above</li>
+        </ul>    
+
+
+</p>
+</div>
+</div>
+</body>
+</html>

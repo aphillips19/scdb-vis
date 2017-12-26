@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+    SCOTUS Data Project
+    Line Chart Visualization
+    Andrew Phillips & Jake Rourke
+-->
+<html lang="en">
+
+<head>
+  <title>Scatterplot</title>
+  <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.js"></script>
+  <link rel="stylesheet" type="text/css" href="scatterplot-style.css">
+  <link rel="stylesheet" type="text/css" href="../../css/navbar.css">
+  <link rel="stylesheet" type="text/css" href="../../css/style.css">
+</head>
+
+<body>
+
+  <div class="navbar">
+    <ul>
+      <li><a href="../../">Home</a></li>
+      <li><a href="../../data/in-depth.html">Data Details</a></li>
+      <li><a href="../linegraph/linechart.html">Line Graph</a></li>
+      <li><a href="../heatmap/heatmap.html">Heatmap</a></li>
+      <li><a class="active" href="#">Scatterplot</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class=project-description>
+      <div class="heading"> <h3>Scatterplot</h3></div>
+      <div class="content">
+        <p> This visualization shows the number, or percentage, of liberal and
+            conservative decisions for a given year, in certain issue areas.
+        </p>
+      </div>
+    </div>
+    <div class="graph">
+      <div class="controls">
+        <div class="scale-selection">
+          <p>Change scale:</p>
+          <button class="button" onclick="updateScatterplotToAbsolute()">Absolute</button>
+          <button class="button" onclick="updateScatterplotToRelative()">Relative</button>
+        </div>
+      </div>
+      <div class="title">
+          <span>Conservative &amp; Liberal Decisions in </span>
+          <select id="issueSelect">
+            <optgroup label="Combined Issue Areas" id="combomenu"></optgroup>
+            <optgroup label="Individual Issue Areas" id="realmenu"></optgroup>
+          </select>
+          <br>
+          <span> Issue Area(s) vs. Time</span>
+      </div>
+      
+      <div class="scatterplot">
+        <!-- js file will add the svg here -->
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="./scatterplot.js"></script>
+</body>
+
+</html>

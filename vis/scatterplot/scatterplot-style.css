@@ -1,0 +1,59 @@
+/*
+    SCOTUS Data Project
+    Scatterplot Visualization
+    Andrew Phillips & Jake Rourke
+*/
+
+.graph {
+  margin: 0 auto;
+  width: 1000px;
+}
+.scatterplot {
+  margin: 0 auto;
+  width: 1000px;
+}
+.controls {
+  margin: 0 auto;
+  width: 1000px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.title {
+  margin: 0 auto;
+  width: 1000px;
+  text-align: center;
+}
+.title span {
+  font-size: 20px;
+}
+
+select {
+  width: auto;
+  text-align: center;
+  padding: 3px;
+}
+
+.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 120px;          
+    padding: 5px;       
+    font: 10px sans-serif;    
+    color: white;
+    background: black;
+    border-radius: 8px;     
+    pointer-events: none;
+    display: none;
+}
+
+/* tooltip arrows from https://www.w3schools.com/css/css_tooltip.asp */
+ .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}

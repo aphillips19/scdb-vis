@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<link rel="stylesheet" type="text/css" href="../../css/style.css">
+<link rel="stylesheet" type="text/css" href="../../css/navbar.css">
+<style>
+#piechart-container {
+  position: absolute;
+  left: 775px;
+  top: 500px;
+}
+
+#button1 {
+  position: absolute;
+  left: 790px;
+  top: 300px;
+
+}
+#button2 {
+  position: absolute;
+  left: 930px;
+  top: 300px;
+
+}
+
+</style>
+
+
+
+
+<head>
+    <div class="navbar">
+    <ul>
+      <li><a href="../../">Home</a></li>
+      <li><a href="../../data/in-depth.html">Data Details</a></li>
+      <li><a href="../linegraph/linechart.html">Line Graph</a></li>
+      <li><a class="active" href="#">Heatmap</a></li>
+      <li><a href="../scatterplot/scatterplot.html">Scatterplot</a></li>
+    </ul>
+  </div>
+
+
+
+
+
+
+  <title>Heatmap</title>
+  <script type=text/javascript src=https://d3js.org/d3.v4.min.js></script>
+  <script src="d3-tip.js"></script>
+</head>
+
+<body>
+  <div class=project-description>
+      <div class="heading"> <h2>Voting Preference Heatmap</h2></div>
+      <div class="content">
+        <p> Each justice's voting preference is shown in terms of issue area (on the top of the heatmap) </p>
+        <p> A red tile = conservative, blue tile = liberal, grey = moderate, white = missing </p>
+        <p>The darker the tile, the more conservative or liberal the justice is </p>
+        <p> Click on 'Civil Liberties' button to view the first 6 issue areas grouped together vs the rest </p>
+        <p> Hover over a tile to update majority/minority pie chart! </p>
+      </div>
+  </div>
+
+  <script type=text/javascript src=./heatmap.js></script>
+  
+
+  <div id="piechart-container", style="width: 300px; height: 305px">
+
+  </div>  
+
+
+  
+  </svg>
+
+   
+   <button id="button1", onclick="regularButton()">By Issue Area</button> 
+   <button id="button2", onclick="civilButton()">Civil Liberties</button> 
+
+</body>
+
+</html>

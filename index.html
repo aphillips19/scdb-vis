@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+    SCOTUS Data Project
+    Public home page
+    Andrew Phillips & Jake Rourke
+-->
+
+<html>
+<head>
+  <title>SCOTUS Project</title>
+  <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/navbar.css">
+</head>
+
+<body>
+  <div class="navbar">
+    <ul>
+      <li><a class="active" href="#">Home</a></li>
+      <li><a href="in-depth.html">Data Details</a></li>
+      <li><a href="vis/linegraph/linechart.html">Line Graph</a></li>
+      <li><a href="vis/heatmap/heatmap.html">Heatmap</a></li>
+      <li><a href="vis/scatterplot/scatterplot.html">Scatterplot</a></li>
+    </ul>
+  </div>
+
+<div class="main">
+  <div class="project-description">
+
+    <div class="heading" id="title"> <h2>Supreme Court Data Project</h2></div>
+    <div id="authors">
+      <p>Final Project for CSCI 3665: From Data to Visualization</p>
+      <p>by Andrew Phillips and Jake Rourke</p>
+    </div>
+
+    <div class="heading"> <h3>Project Description</h3></div>
+    <div class="content"><p>
+      The goal of our project is to visualize the liberal or conservative
+      decisions of the United States Supreme Court, and each individual Supreme
+      Court Justice's voting preference. We examine how this changes over time -
+      in different years, under different Chief Justices, and/or when justices
+      are the swing vote - as well as how it differs in various issue areas. We
+      also look at the breakdown of issue areas more broadly.  Four different
+      visualizations tackle this goal, using data from every justice's vote in
+      every supreme court decision from 1946-2015.
+    </p></div>
+
+    <div class="heading"> <h3>The Data</h3></div>
+    <div class="content"><p>
+      We use the <a href="http://scdb.wustl.edu/"> Supreme Court Database</a>
+      from Washington University in St. Louis in our project. Specifically, we
+      are using the justice-centered and case-centered datasets, organized by
+      issue area/legal provision. The justice-centered dataset includes lines of
+      data about every individual justice's vote in each case, while the
+      case-centered dataset only includes one line of data per case. Attributes
+      relevant to our project include the year, the justice, the chief justice
+      at the time, the direction of the decision, the direction of a justice's
+      vote, the issue area, and the median voter status of justices. In
+      addition, our dataset is extended by Maron Sorenson, Professor of
+      Government &amp; Legal Studies, to include information about the median
+      justice (swing vote) in each decision.
+      <a href="./in-depth.html">Click here</a>
+      for detailed information about the dataset and attributes.
+    </p></div>
+  </div>
+
+  <div class="heading"> <h3>Visualizations</h3></div>
+  <div class="visualization-links">
+
+    <div class="glance">
+      <div id="piechart-container"></div>
+      <div id="piechart-title">
+        <span><b>At a Glance:</b> Decision Direction Breakdown from</span> 
+          <select class="datePicker" id="startYear"></select>
+          <span> to </span>
+          <select class="datePicker" id="endYear"></select>
+      </div>
+    </div>
+    
+
+    <div class="row">
+      <div class="column">
+        <div class="vis-info" id="heatmap-pane">
+          <h4>(1) Heatmap and Pie Chart</h4>
+          <p>Justice-Centered data. Examines how justices vote depending on issue area, and when they are in the majority or minority</p>
+          <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/heatmap/heatmap.html">
+            <div class="link-image" id="link-heatmap"></div>
+          </a>
+        </div>
+      </div>
+      <div class="column">
+        <div class="vis-info" id="line-pane">
+          <h4>(2) Multi-Series Line Graph</h4>
+          <p>Justice-Centered data. Examines how justices vote over time, under different chief justices, and when they are the swing vote</p>
+          <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/linegraph/linechart.html">
+            <div class="link-image" id="link-linegraph"></div>
+          </a>
+        </div>
+      </div>
+      <div class="column">
+        <div class="vis-info">
+          <h4>(3) Scatterplot</h4>
+          <p>Case-Centered data. Examines the frequency of liberal and conservative decisions over time, depending on issue area.</p>
+          <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/scatterplot/scatterplot.html">
+            <div class="link-image" id="link-scatterplot"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="content"><p>
+      Our project would not have been possible without the help of Professor Congdon,
+      Professor Sorenson, our assigned textbooks, and the feedback of our peers.
+      Additionally, we used the following examples as references when creating our
+      visualizations:
+    </p>
+      <ul>
+        <li>add proper credits here</li>
+      </ul>
+
+  </div>
+  </div>
+</div>
+
+</div>
+<script type="text/javascript" src="./at-a-glance.js"></script>
+
+</body></html>

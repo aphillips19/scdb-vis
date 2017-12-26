@@ -1,0 +1,150 @@
+/*
+    SCOTUS Data Project
+    Main Style Sheet
+    Andrew Phillips & Jake Rourke
+*/
+
+body {
+  font-family: sans-serif;
+}
+
+a {
+  color: #007BFF;
+}
+
+.main {
+  padding-top: 30px;
+  margin: 0 auto;
+  width: 1200px;
+  z-index: 1;
+
+}
+
+#project-title {
+  font-size: 30px;
+}
+
+.project-description {
+  margin: 0 auto;
+  width: 800px;
+  padding: 20px;
+}
+
+#title {
+  padding-top: 30px;
+}
+
+.heading h3, .heading h2{
+  margin: 0 auto;
+  text-align: center;
+}
+.heading h3 {
+  padding: 10px;
+  width: 300px;
+}
+
+.heading h2 {
+  font-size: 30px;
+  padding-top: 40px;
+  padding-bottom: 0px;
+}
+.content {
+  text-align: justify;
+  text-justify: inter-word;
+}
+#authors {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.column {
+  float: left;
+  margin: 8px;
+  width: 380px;
+  border: 2px lightgrey solid;
+  background: #F7F7F7;
+  height: 400px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#link-scatterplot {
+  background-image: url("img/scatterplot.jpg");
+}
+#link-linegraph {
+  background-image: url("img/linegraph.jpg");
+}
+#link-heatmap {
+  background-image: url("img/heatmap.jpg");
+}
+
+.link-image {
+  padding: 0px 30px;
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  background-size: cover;
+}
+
+.visualization-links, .visualization {
+  margin: 0 auto;
+}
+
+.vis-info {
+  padding: 10px;
+}
+
+.glance {
+  margin: 8px;
+  margin-top: 16px;
+  width: 1180px;
+  height: 300px;
+  border: 2px lightgrey solid;
+  background: #F7F7F7;
+  text-align: justify;
+}
+
+#piechart-container {
+  float: left;
+}
+#piechart-title {
+  float: right;
+  padding: 125px 70px;
+  font-size: 20px;
+}
+select {
+  width: auto;
+  text-align: center;
+  padding: 3px;
+}
+
+#sidetab {
+  background: #292b2c;
+  color: white;
+  width: 90px;
+  padding: 3px;
+
+}
+
+.glance p {
+  padding-top: 5px;
+  padding-left: 80px;
+  padding-right: 80px;
+  display: inline-block;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(odd){background-color: #f2f2f2}
