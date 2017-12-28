@@ -7,123 +7,173 @@
 
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>SCOTUS Project</title>
+
+  <!-- d3 and d3-legend -->
   <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.3/d3-legend.js"></script>
+
+  <!-- old stylesheets for main and navbar
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/navbar.css">
+  <link rel="stylesheet" type="text/css" href="css/navbar.css"> -->
+
+  <!-- bootstrap stylesheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
 </head>
 
 <body>
-  <div class="navbar">
-    <ul>
-      <li><a class="active" href="#">Home</a></li>
-      <li><a href="in-depth.html">Data Details</a></li>
-      <li><a href="vis/linegraph/linechart.html">Line Graph</a></li>
-      <li><a href="vis/heatmap/heatmap.html">Heatmap</a></li>
-      <li><a href="vis/scatterplot/scatterplot.html">Scatterplot</a></li>
-    </ul>
-  </div>
-
-<div class="main">
-  <div class="project-description">
-
-    <div class="heading" id="title"> <h2>Supreme Court Data Project</h2></div>
-    <div id="authors">
-      <p>Final Project for CSCI 3665: From Data to Visualization</p>
-      <p>by Andrew Phillips and Jake Rourke</p>
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">SCDBViz</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="in-depth.html">Data Details</a></li>
+          <li><a href="vis/linegraph/linechart.html">Line Graph</a></li>
+          <li><a href="vis/heatmap/heatmap.html">Heatmap</a></li>
+          <li><a href="vis/scatterplot/scatterplot.html">Scatterplot</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
     </div>
+  </nav>
 
-    <div class="heading"> <h3>Project Description</h3></div>
-    <div class="content"><p>
-      The goal of our project is to visualize the liberal or conservative
-      decisions of the United States Supreme Court, and each individual Supreme
-      Court Justice's voting preference. We examine how this changes over time -
-      in different years, under different Chief Justices, and/or when justices
-      are the swing vote - as well as how it differs in various issue areas. We
-      also look at the breakdown of issue areas more broadly.  Four different
-      visualizations tackle this goal, using data from every justice's vote in
-      every supreme court decision from 1946-2015.
-    </p></div>
-
-    <div class="heading"> <h3>The Data</h3></div>
-    <div class="content"><p>
-      We use the <a href="http://scdb.wustl.edu/"> Supreme Court Database</a>
-      from Washington University in St. Louis in our project. Specifically, we
-      are using the justice-centered and case-centered datasets, organized by
-      issue area/legal provision. The justice-centered dataset includes lines of
-      data about every individual justice's vote in each case, while the
-      case-centered dataset only includes one line of data per case. Attributes
-      relevant to our project include the year, the justice, the chief justice
-      at the time, the direction of the decision, the direction of a justice's
-      vote, the issue area, and the median voter status of justices. In
-      addition, our dataset is extended by Maron Sorenson, Professor of
-      Government &amp; Legal Studies, to include information about the median
-      justice (swing vote) in each decision.
-      <a href="./in-depth.html">Click here</a>
-      for detailed information about the dataset and attributes.
-    </p></div>
-  </div>
-
-  <div class="heading"> <h3>Visualizations</h3></div>
-  <div class="visualization-links">
-
-    <div class="glance">
-      <div id="piechart-container"></div>
-      <div id="piechart-title">
-        <span><b>At a Glance:</b> Decision Direction Breakdown from</span> 
-          <select class="datePicker" id="startYear"></select>
-          <span> to </span>
-          <select class="datePicker" id="endYear"></select>
+<div class="container">
+  <div class="row">
+    <div class="text-center">
+      <h2>Supreme Court Data Project</h2>
+      <div class="lead">
+        <p>Visualizing justice votes and court decisions from the SCDB</p>
       </div>
     </div>
-    
+  </div>
 
+  <div class="row"> <!-- row for at a glance -->
+    <div class="text-center">
+      <h3>At a Glance:<br>
+      <small>the court from from
+        <select class="datePicker" id="startYear"></select>
+        <span> to </span>
+        <select class="datePicker" id="endYear"></select>
+      </small></h3>
+    </div>
     <div class="row">
-      <div class="column">
-        <div class="vis-info" id="heatmap-pane">
-          <h4>(1) Heatmap and Pie Chart</h4>
-          <p>Justice-Centered data. Examines how justices vote depending on issue area, and when they are in the majority or minority</p>
-          <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/heatmap/heatmap.html">
-            <div class="link-image" id="link-heatmap"></div>
-          </a>
-        </div>
+      <div class="col-sm-4 text-center">
+        <div class="panel panel-default" id="glance">
+          <div class="panel-heading">Decision Direction Breakdown</div>
+          <div class="panel-content" id="piechart-container"></div>
+        </div> <!-- END #glance -->
       </div>
-      <div class="column">
-        <div class="vis-info" id="line-pane">
-          <h4>(2) Multi-Series Line Graph</h4>
-          <p>Justice-Centered data. Examines how justices vote over time, under different chief justices, and when they are the swing vote</p>
-          <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/linegraph/linechart.html">
-            <div class="link-image" id="link-linegraph"></div>
-          </a>
-        </div>
-      </div>
-      <div class="column">
-        <div class="vis-info">
-          <h4>(3) Scatterplot</h4>
-          <p>Case-Centered data. Examines the frequency of liberal and conservative decisions over time, depending on issue area.</p>
-          <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/scatterplot/scatterplot.html">
-            <div class="link-image" id="link-scatterplot"></div>
-          </a>
+      <div class="col-sm-8 text-center">
+        <div class="panel panel-default">
+          <div class="panel-heading">Issue Area Breakdown</div>
+          <div class="panel-content" id="barchart-container"></div>
         </div>
       </div>
     </div>
+  </div> <!-- END row for at a glance -->
 
-    <div class="content"><p>
-      Our project would not have been possible without the help of Professor Congdon,
-      Professor Sorenson, our assigned textbooks, and the feedback of our peers.
-      Additionally, we used the following examples as references when creating our
-      visualizations:
-    </p>
-      <ul>
-        <li>add proper credits here</li>
-      </ul>
+  <div class="row"> <!-- row for descriptions -->
+    <div class="col-lg-1"> <!-- take up space --> </div>
+    <div class="col-lg-10 text-center">
+      <h3>Project Description</h3>
+      <div class="text-justify"><p>
+        The goal of our project is to visualize the liberal or conservative
+        decisions of the United States Supreme Court, and each individual Supreme
+        Court Justice's voting preference. We examine how this changes over time -
+        in different years, under different Chief Justices, and/or when justices
+        are the swing vote - as well as how it differs in various issue areas.
+        Three different visualizations tackle this goal, using data from every
+        justice's vote in every supreme court decision from 1946-2015.
+      </p></div>
 
+      <h3>The Data</h3>
+      <div class="text-justify"><p>
+        We use the <a href="http://scdb.wustl.edu/"> Supreme Court Database</a>
+        from Washington University in St. Louis in our project. Specifically, we
+        are using the justice-centered and case-centered datasets, organized by
+        issue area/legal provision. The justice-centered dataset includes lines of
+        data about every individual justice's vote in each case, while the
+        case-centered dataset only includes one line of data per case. Attributes
+        relevant to our project include the year, the justice, the chief justice
+        at the time, the direction of the decision, the direction of a justice's
+        vote, the issue area, and the median voter status of justices. In
+        addition, our dataset is extended by Maron Sorenson, Professor of
+        Government &amp; Legal Studies, to include information about the median
+        justice (swing vote) in each decision.
+        <a href="./in-depth.html">Click here</a>
+        for detailed information about the dataset and attributes.
+      </p></div>
+    </div>
+    <div class="col-lg-1"> <!-- take up space --> </div>
   </div>
-  </div>
+    <!--
+      <div class="row">
+        <div class="column">
+          <div class="vis-info" id="heatmap-pane">
+            <h4>(1) Heatmap and Pie Chart</h4>
+            <p>Justice-Centered data. Examines how justices vote depending on issue area, and when they are in the majority or minority</p>
+            <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/heatmap/heatmap.html">
+              <div class="link-image" id="link-heatmap"></div>
+            </a>
+          </div>
+        </div>
+        <div class="column">
+          <div class="vis-info" id="line-pane">
+            <h4>(2) Multi-Series Line Graph</h4>
+            <p>Justice-Centered data. Examines how justices vote over time, under different chief justices, and when they are the swing vote</p>
+            <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/linegraph/linechart.html">
+              <div class="link-image" id="link-linegraph"></div>
+            </a>
+          </div>
+        </div>
+        <div class="column">
+          <div class="vis-info">
+            <h4>(3) Scatterplot</h4>
+            <p>Case-Centered data. Examines the frequency of liberal and conservative decisions over time, depending on issue area.</p>
+            <a href="http://www.bowdoin.edu/~acphilli/proj/scotus-data-project/vis/scatterplot/scatterplot.html">
+              <div class="link-image" id="link-scatterplot"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="content"><p>
+        Our project would not have been possible without the help of Professor Congdon,
+        Professor Sorenson, our assigned textbooks, and the feedback of our peers.
+        Additionally, we used the following examples as references when creating our
+        visualizations:
+      </p>
+        <ul>
+          <li>add proper credits here</li>
+        </ul>
+
+    </div>
+    </div>
+-->
 </div>
 
 </div>
-<script type="text/javascript" src="./at-a-glance.js"></script>
+<!-- at a glance code -->
+<script type="text/javascript" src="js/at-a-glance.js"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body></html>

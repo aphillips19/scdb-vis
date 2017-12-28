@@ -8,86 +8,119 @@
 
 var NS = {}; // create namespace
 
-NS.datapath = "../Data/SCDB_M_caseCentered.csv"
-
-NS.width = 400;      // of SVG
-NS.height = 300;     // of SVG
-NS.radius = 100;
-NS.padding = 40;
+NS.datapath = "./data/SCDB_M_caseCentered.csv"
+NS.nFormat = d3.format(",d");
 
 NS.startYear = +1946;
 NS.endYear = +2016;
+NS.chart = {};
+NS.chart.donut = {
+  // possible values
+  type: "decisionDirection",
+  // pie chart radius
+  radius: 100,
+  // svg height, width, and apdding
+  width: 400,
+  height: 250,
+  padding: 90
+}
+NS.chart.bar = {
+  width: 800,
+  height: 250
+}
 
-NS.nFormat = d3.format(",d");
-
-NS.directions = ["Conservative", "Liberal", "Unspecifiable"];
-
+NS.keys = {
+  decisionDirection: ["Conservative", "Liberal", "Unspecifiable"],
+  issueArea: ["stuff", "will", "go", "here"]
+}
 ///////////////////////////////////////////////////////////////////////////////
 
-function nestData() {
+// nest the data using d3.nest, rolling up with sums of "type" in each year
+// type is either "decisionDirection" or "issueArea"
+function nestDataByYear(data, type) {
+  // keys is an array of which things will be summed in rollup
+  var keys = NS.keys[type]
 
-  // Nest the data by year, counting the number of cases in every issue area
-  // in each year
-  
-  NS.dataByYear = d3.nest()
-    .key(function(d) { return +d.term; })
+  // x is the "offset" from array notation to the database; i.e. "conservative"
+  // is 0 in the array, and 1 in the dataset
+  var x = 1;
+
+  var nestedData = d3.nest()
+    .key(function(d) { return +d.term; }) // nest by year (term)
     .rollup(function(v) {
-      var temp = {
-        Conservative: 0,
-        Liberal: 0,
-        Unspecifiable: 0
-      };
-      // iterate through every case, incrementing the proper decision direction
+
+      // create an object to store relevant info (directions or issue areas)
+      var temp = {};
+
+      // fill the object with objects like {Conservative: 0}
+      for(var i = 0; i < keys.length; i++) {
+        temp[keys[i]] = 0;
+      }
+
+      // iterate through every case, incrementing each property to get the sums
       for(var i = 0; i < v.length; i++) {
         d = v[i];
-        direction = "";
-        if(+d.decisionDirection == 1)       direction = "Conservative";
-        else if(+d.decisionDirection == 2)  direction = "Liberal";
-        else                                direction = "Unspecifiable";
-        
+        key = "";
+        for(var j = 0; j < keys.length; j++) {
+          if(+d[type] == j + x) direction = keys[j];
+        }
         temp[direction]++;
       }
       return temp;
     })
-    .object(NS.dataset);
+    .object(data);
+
+  return nestedData;
 }
 
 // return an array of objects with the aggregate conservative, liberal, and
 // unspecifiable decisions in the given range of years (a to b).
 // {direction: c, n: 26}
-function aggregateByYear(range) {
+function aggregateByYear(data, range, type) {
+  console.log(data);
   var temp = [];
-  NS.directions.forEach(function(dir) {
-    count = 0;
+  var keys = NS.keys[type];
+  keys.forEach(function(key) {
+    n = 0;
     range.forEach(function(year) {
-      count += NS.dataByYear[year][dir];
+      n += data[year][key];
     });
-    temp.push( {direction: dir, n: count } );
+    temp.push( {key: key, n: n } );
   });
   return temp;
 }
 
 
 // create the SVG context and return it
-function makeSVG () {
-  
+function makePieSVG () {
+  var My = NS.chart.donut; // make the namespace easier
   //Create SVG element
-  NS.svg = d3.select("#piechart-container")
+  My.svg = d3.select("#piechart-container")
         .append("svg")
-        .attr("width", NS.width)
-        .attr("height", NS.height);
+        .attr("width", My.width)
+        .attr("height", My.height);
+}
+function makeBarSVG () {
+  var My = NS.chart.bar; // make the namespace easier
+  //Create SVG element
+  My.svg = d3.select("#barchart-container")
+        .append("svg")
+        .attr("width", My.width)
+        .attr("height", My.height);
 }
 
 function makeLegend() {
-  NS.svg.append("g")
+  console.log("implement legend next");
+  var My = NS.chart.donut; // make the namespace easier
+  My.svg.append("g")
     .attr("class", "legendOrdinal")
     .attr("transform", "translate(20,20)");
 
-  NS.legendOrdinal = d3.legendColor()
-    .scale(NS.color);
+  My.legendOrdinal = d3.legendColor()
+    .scale(My.color);
 
-  NS.svg.select(".legendOrdinal")
-    .call(NS.legendOrdinal);
+  My.svg.select(".legendOrdinal")
+    .call(My.legendOrdinal);
 
 }
 
@@ -119,71 +152,71 @@ function makeMenu() {
       alert("Invalid date range");
     }
   });
-
-
-
 }
 
-
 function setupPieChart() {
-  NS.pie = d3.pie()
+  var My = NS.chart.donut; // make the namespace easier
+
+  My.pie = d3.pie()
     .sort(null)
     .value(function(d) { return d.n })
 
-  NS.piechart = NS.svg.append("g")
-    .attr("transform", "translate(" + (NS.width - NS.radius - NS.padding) + "," + NS.height / 2 + ")")
+  My.piechart = My.svg.append("g")
+    .attr("transform", "translate(" + (My.width - My.radius - My.padding) + "," + (My.height / 2 + 10) + ")")
     .attr("class", "piechart");
 
-  NS.color = d3.scaleOrdinal()
-    .domain(NS.directions)
+  My.color = d3.scaleOrdinal()
+    .domain(NS.keys[My.type])
     .range(["#fa8072", "#6495ed", "#d3d3d3"])
   
 
-  NS.d3arc = d3.arc()
-      .outerRadius(NS.radius)
-      .innerRadius(NS.radius - 20);
+  My.sliceArc = d3.arc()
+      .outerRadius(My.radius)
+      .innerRadius(My.radius - 20);
 
-  NS.label = d3.arc()
-      .outerRadius(NS.radius + 20)
-      .innerRadius(NS.radius + 20);
+  My.labelArc = d3.arc()
+      .outerRadius(My.radius + 20)
+      .innerRadius(My.radius + 20);
 }
 
 function makePieChart () {
+  var My = NS.chart.donut; // make the namespace easier
+
   // get the data for the pie chart by passing this function an array of all
   // the years in the specified range (inclusive)
-  NS.data = aggregateByYear(d3.range(NS.startYear,(NS.endYear)));
-  NS.piedata = NS.pie(NS.data);
+  My.data = aggregateByYear(My.dataNested, d3.range(NS.startYear,(NS.endYear)), My.type);
+  My.piedata = My.pie(My.data);
 
   // select all of the arcs (slices)
-  NS.arc = NS.piechart.selectAll(".arc")
-    .data(NS.piedata)
+  My.arc = My.piechart.selectAll(".arc")
+    .data(My.piedata)
     .enter().append("g")
       .attr("class", "arc");
 
   // append the path to each one
-  NS.arc.append("path")
-      .attr("d", NS.d3arc)
-      .attr("fill", function(d) { return NS.color(d.data.direction); })
+  My.arc.append("path")
+      .attr("d", My.sliceArc)
+      .attr("fill", function(d) { return My.color(d.data.key); })
 
   // append the label to each one
-  NS.arc.append("text")
-      .attr("transform", function(d) { return "translate(" + NS.label.centroid(d) + ")"; })
+  My.arc.append("text")
+      .attr("transform", function(d) { return "translate(" + My.labelArc.centroid(d) + ")"; })
       .attr("text-anchor", "middle")
       .attr("dy", "0.35em")
       .text(function(d) { return d.data.n; });
 
   // add n to the middle
-  NS.numbers = NS.piechart
+  My.numbers = My.piechart
     .append("g")
     .attr("class", "piechart-numbers");
-  NS.numbers.append("text")
+  My.numbers.append("text")
     .attr("id", "piechart-totalcases")
     .text(function() {
-      return NS.nFormat(d3.sum(NS.data, function(d) {return d.n}));
+      return NS.nFormat(d3.sum(My.data, function(d) {return d.n}));
     })
     .style("text-anchor", "middle")
     .attr("font-size", "40");
-  NS.numbers.append("text")
+  My.numbers.append("text")
     .text("total decisions")
     .attr("text-anchor", "middle")
     .attr("y", 20);
@@ -192,31 +225,33 @@ function makePieChart () {
 function updateChart() {
   console.log("updating to " + NS.startYear + "-" + NS.endYear);
 
+  var My = NS.chart.donut; // make the namespace easier
+
   // change the angles to the new data
-  NS.data = aggregateByYear(d3.range(NS.startYear,(NS.endYear + 1)));
-  NS.piedata = NS.pie(NS.data);
+  My.data = aggregateByYear(My.dataNested, d3.range(NS.startYear,(NS.endYear + 1)), My.type);
+  My.piedata = My.pie(My.data);
   
   // bind the new data
-  NS.arc.data(NS.piedata);
+  My.arc.data(My.piedata);
 
   // update the arcs
-  NS.arc.select("path")
-    .attr("d", NS.d3arc)
+  My.arc.select("path")
+    .attr("d", My.sliceArc);
 
-  NS.arc.select("text")
+  My.arc.select("text")
     .text(function(d) {
       return d.data.n;
     });
 
   // change n
-  NS.numbers.select("#piechart-totalcases")
+  My.numbers.select("#piechart-totalcases")
     .transition().duration(500)
     // animate the text gradually increasing/decreasing
     // adapted from https://bl.ocks.org/mbostock/7004f92cac972edef365
     .tween("text", function() {
       var that = d3.select(this)
       // get the sum of all the decisions
-      var n = d3.sum(NS.data, function(d) {return d.n});
+      var n = d3.sum(My.data, function(d) {return d.n});
       // interpolate between. The replace() is necessary b/c of the commas
       // added by NS.nFormat.
       var i = d3.interpolateNumber(that.text().replace(/,/g, ""), n);
@@ -224,14 +259,15 @@ function updateChart() {
     })
 }
 
-function main () {
+function main (data) {
   console.log("main function");
 
-  // aggregate data
-  nestData();
+  // aggregate data for decision direction breakdown
+  var donut = NS.chart.donut;
+  donut.dataNested = nestDataByYear(data, "decisionDirection");
 
   // make the SVG
-  makeSVG(); // stores in NS.svg
+  makePieSVG(); // stores in NS.chart.donut.svg
 
   // Set up pie chart and draw for the first time
   setupPieChart();
@@ -240,6 +276,9 @@ function main () {
   // make the legend
   makeLegend();
 
+  // make the SVG
+  makeBarSVG();
+
   // make the menu
   makeMenu();
 }
@@ -247,9 +286,8 @@ function main () {
 function initialize() {
 
   // Load census data and call main
-  d3.csv(NS.datapath, function(d) {
-    NS.dataset = d;
-    main();
+  d3.csv(NS.datapath, function(data) {
+    main(data);
   });
 }
 
